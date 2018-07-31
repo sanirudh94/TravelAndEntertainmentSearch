@@ -1,0 +1,987 @@
+<html ng-App="myApp">
+    <title>Travel Search</title>
+    <head>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="hw8.css">
+        <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+  <script type="text/javascript" src="hw8.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+        <script type="text/javascript" async src="https://platform.twitter.com/widgets.js"></script>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+       <!-- Latest compiled and minified CSS -->
+
+        <style>
+            .row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+            .selected {
+  background-color: #fcc963;
+}
+.table-warning, .table-warning > th, .table-warning > td,
+            .table-warning>tr:hover{
+background-color: #fcc963;
+}
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+        </style>
+    </head>
+<body>
+    <div ng-controller="FormCtrl">
+    <div style="width: 800px;height: 370px;background-color: whitesmoke;border-style:solid;border-color: darkgray;
+                top:30px;margin-left: 400px;position:absolute">
+		<h1 style="text-align: center;color: black;font-size: 16px;margin-left: -143px;">Travel And Entertainment Search</h1>
+         
+<div class="container">
+    
+  <form class="form-horizontal" method="post" id="place_form"  ng-submit="submitForm()">
+    <div class="form-group form-group required" style="margin-top: 10px;">
+      <label class="control-label col-sm-2 " for="keyword">Keyword</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="keyword_enter" name="keyword" ng-model="keyword" required onfocusout="formValidation1()">
+          <p id="error1" style="display: none;color: red;height: 1px;">Please enter a keyword</p> 
+      </div>
+    </div>
+    <div class="form-group">
+  <label class="control-label col-sm-2" for="category">Category</label>
+<div class="col-sm-3">
+  <select class="form-control" name="myTypeSelect" id="myTypeSelect1" ng-model="category" ng-init="category='Default'">
+    <option selected="selected">Default</option>
+    <option>Airport</option>
+    <option>Amusement Park</option>
+    <option>Aquarium</option>
+    <option>Art Gallery</option>
+    <option>Bakery</option>
+    <option>Bar</option>
+    <option>Beauty Salon</option>
+    <option>Bowling Alley</option>
+    <option>Bus Station</option>
+    <option>Cafe</option>
+    <option>Campground</option>
+    <option>Car Rental</option>
+    <option>Casino</option>
+    <option>Lodging</option>
+    <option>Movie Theater</option>
+    <option>Museum</option>
+    <option>Night Club</option>
+    <option>Park</option>
+    <option>Parking</option>
+    <option>Resturant</option>
+    <option>Shopping mall</option>
+    <option>Stadium</option>
+    <option>Subway Station</option>
+    <option>Taxi Stand</option>
+    <option>Train Station</option>
+    <option>Transit Station</option>
+    <option>Travel Agency</option>
+    <option>Zoo</option>
+  </select>
+</div>
+      </div>
+      <div class="form-group" style="margin-top: 10px;">
+      <label class="control-label col-sm-2" for="distance">Distance(miles)</label>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" id="distance" name="distance" placeholder="10" ng-model="distance">
+      </div>
+      </div>
+        <div class="form-group form-group required" style="margin-top: 14px;margin-left: -40px;">
+      <label class="control-label col-sm-2" for="from">From</label>
+          </div>
+    <div class="radio" style="margin-top:-53px;margin-left: 194px;">
+        <label style="font-size: 14px;"><input type="radio" id="radioLoc" name="location" ng-value='"Current location"' ng-checked="true">Current location</label>
+          </div>
+           <div class="radio" style="margin-top:-1px;margin-left: 194px;">
+        <label><input type="radio" id="location" name="location" ng-model="radioBtn" ng-value='"Other,Please specify:"'>Other,Please specify:</label>
+            </div>
+        <div class="col-sm-4" style="margin-top: 5px;margin-left: 180px;">
+              <input type="text" class="form-control" id="location1" name="location1" placeholder="Enter a location" ng-model="location" readonly="readonly" required
+               onFocus="geolocate()" onfocusout="formValidation2()">
+            <p id="error2" style="display: none;color: red;height: 1px;">Please enter a location</p>
+              </div>
+      <div  class="form-group" >
+          <input type="submit" id="searchId" ng-click="Search()" class="btn btn-info" value="Search"  style="margin-top: 56px;margin-left: -450px;">
+           <span class="glyphicon glyphicon-search" style="top: 31px;left: -73px; color: white;font-size: 11px;"></span>
+           <input type="button" class="btn btn-default" value="Clear" id="clearId" style="margin-top: 56px;margin-left: 0px;" onclick="clearData()">
+        </div>
+    </form>
+    <div><button type="button" class="btn btn-primary" style="margin-top: 35px;margin-left: 221px;" id="resultsId">Results</button></div>
+    <div><button type="button" class="btn btn-link" style="margin-top: -33px;margin-left: 288px;" id="favBtnId" ng-click="Favorite()">Faviorites</button></div>
+    <!--<div id="tweetBtn" style="display: none;width: 60px;height: 60px;">
+    <a id="tweetid" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>-->
+    </div>
+    </div>
+        <div id="firstProgress" style="display:none;">
+                            <div class="progress" id="loadingmessage" style="width:100%; vertical-align: middle;">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                </div>
+                            </div>
+        <div id="noRes" class="alert alert-warning" style="width: 1080px;height: 41px;display: none;margin-top: 473px;margin-left: 225px;"><p style="margin-left: 19px;margin-top: -5px;">No Records</p></div>
+     <div id="firstPage" style="width: 1046px;margin-left: 197px;display: none;margin-top:2px;" class='animate-hide1' ng-hide="listHide">
+            
+                                <div id="tableData" style="border: none">
+                                    <div class="container">
+                                         <div style="margin-left: 300px;"><button type="button" id="detailsBtn1" ng-click="mainPageDetails()" class="btn btn-default btn-sm" style="margin-top: -18px;margin-left: 705px;" disabled>Details <span class="glyphicon glyphicon-chevron-right"></span></button></div>
+                                        <div class="table-responsive">
+                                <table id ="firstPageTabled" class="table table-hover" style="border: none">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Category</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Favorites</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr ng-repeat="places in travel" ng-class="{'selected':$index == selectedRow}">
+                                            <td style="font-size: 14px;padding:25px;">{{ $index + 1 }}</td>
+                                            <td><img src={{places.icon}} class="img-circle" width="40" height="40" /></td>
+                                            <td style="font-size: 14px;">{{places.name}}</td>
+                                            <td style="font-size: 14px;">{{places.vicinity}}</td>
+                                           <td><button type="button" class="btn btn-default" name="far" id="firstStar" aria-label="Left Align" ng-click="addtostorage1($index)">
+                                                <span class="glyphicon glyphicon-star-empty" name="stars"></span></button></td>
+                                           <td><button type="button" id="detailsPg2" class="btn btn-default" aria-label="Left Align" ng-click="getDetails($index)">
+                                               <span class="glyphicon glyphicon-chevron-right"></span></button></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                    
+         </div>
+                                        </div>
+         <div id="nextId" style="margin-left: 300px;display: none;"><button type="button" class="btn btn-default btn-md" style="margin-top: -9px;margin-left:212px;width:69px;height:30px;" ng-click="shownext()">Next</button></div>
+                                    <div  style="margin-left: 300px;display:none;"><button type="button" id="prevId1" class="btn btn-default btn-sm" style="margin-top: -29px;margin-left: 363px;">Previous</button></div>
+                                    </div>
+            
+    </div>
+         <div id="secondPage"class='animate-hide1' ng-hide="listHide" style="width: 1046px;margin-left: 197px;display: none;margin-top: 20px;" class='animate-hide1' ng-hide="listHide">
+             <div style="margin-left: 300px;"><button type="button" id="detailsBtn2" ng-click="mainPageDetails()" class="btn btn-default btn-sm" style="margin-top: -18px;margin-left: 714px;" disabled>Details <span class="glyphicon glyphicon-chevron-right"></span></button></div>
+                                <div id="tableData" style="border: none">
+                                      <div class="container">
+                                    <div class="table-responsive">
+                                <table id ="firstPageTables" class="table table-hover" style="border: none">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Category</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Favorites</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr ng-repeat="places in travel1">
+                                            <td style="font-size: 14px;padding:25px;">{{ $index + 1 }}</td>
+                                            <td><img src={{places.icon}} class="img-circle" width="40" height="40" /></td>
+                                            <td style="font-size: 14px;">{{places.name}}</td>
+                                            <td style="font-size: 14px;">{{places.vicinity}}</td>
+                                           <td><button type="button" class="btn btn-default" id="firstStar" aria-label="Left Align" ng-click="addtostorage1($index)">
+                                                 <span class="glyphicon glyphicon-star-empty" name="stars"></span></button></td>
+                                           <td><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="getDetails($index)">
+                                               <span class="glyphicon glyphicon-chevron-right"></span></button></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                    
+         </div>
+             </div>
+             <div id="nextId" style="margin-left: 300px;display: block;"><button type="button" class="btn btn-default btn-md" style="margin-top: 8px;margin-left:224px;width:69px;height: 30px;" ng-click="shownext()">Next</button></div>
+                                    <div  style="margin-left: 202px;display:block;"><button type="button" id="prevId2" class="btn btn-default btn-sm" style="margin-top: -29px;margin-left: 249px;height: 29px;">Previous</button></div>
+             </div>
+    </div>
+         <div id="thirdPage" style="width: 1046px;margin-left: 197px;display: none;" class='animate-hide1' ng-hide="listHide">
+             <div style="margin-left: 300px;"><button type="button" id="detailsBtn3" ng-click="mainPageDetails()" class="btn btn-default btn-sm"  style="margin-top: -18px;margin-left: 714px;" disabled>Details <span class="glyphicon glyphicon-chevron-right"></span></button></div>
+                                <div id="tableData" style="border: none">
+                                    <div class="container">
+                                     <div class="table-responsive">
+                                <table id ="firstPageTablee" class="table table-hover" style="border: none">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Category</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Favorites</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr ng-repeat="places in travel2">
+                                            <td style="font-size: 14px;padding:25px;">{{ $index + 1 }}</td>
+                                            <td><img src={{places.icon}} class="img-circle" width="40" height="40" /></td>
+                                            <td style="font-size: 14px;">{{places.name}}</td>
+                                            <td style="font-size: 14px;">{{places.vicinity}}</td>
+                                           <td><button type="button" class="btn btn-default" id="firstStar" aria-label="Left Align" ng-click="addtostorage1($index)">
+                                                <span class="glyphicon glyphicon-star-empty" name="stars"></span></button></td>
+                                           <td><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="getDetails($index); ">
+                                               <span class="glyphicon glyphicon-chevron-right"></span></button></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                        </div>
+                                    </div>
+                                    
+         </div>
+             <div id="nextId" style="margin-left: 300px;display: none;"><button type="button" class="btn btn-default btn-md" style="margin-top: -9px;margin-left: 432;width:69px;height:30px;" ng-click="shownext()">Next</button></div>
+                                    <div style="margin-left: 300px;display:block;"><button type="button" id="prevId3" class="btn btn-default btn-sm" style="margin-top: 9px;margin-left: 207px;height: 29px;">Previous</button></div>
+    </div>
+        <div id="favPage" style="width: 1046px;margin-left: 300px;margin-top: 8px; display: none;" class='animate-hide1' ng-hide="listHide">
+            <div style="margin-left: 300px;"><button type="button" id="detailsBtn4" ng-click="mainPageDetails()" class="btn btn-default btn-sm"  style="margin-top: -18px;margin-left: 602px;" disabled>Details<span class="glyphicon glyphicon-chevron-right"></span></button></div>
+                                <div id="tableData" style="border: none">
+                                    <div class="container">
+                                     <div class="table-responsive">
+                                <table id ="favPageTable" class="table table-hover" style="border: none">
+                                    <thead>
+                                        <tr>
+                                            
+                                            <th>#</th>
+                                            <th>Category</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Favorites</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr ng-repeat="places in nameData">
+                                            <td style="font-size: 14px;padding:25px;">{{ $index + 1 }}</td>
+                                            <td><img src={{categoryData[$index]}} class="img-circle" width="40" height="40" /></td>
+                                            <td style="font-size: 14px;">{{nameData[$index]}}</td>
+                                            <td style="font-size: 14px;">{{addressData[$index]}}</td>
+                                           <td><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteFromStorage(allIds[$index])">
+                                               <i class="fas fa-trash-alt"></i></button></td>
+                                           <td><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="favDetails(allIds[$index])">
+                                               <span class="glyphicon glyphicon-chevron-right"></span></button></td>
+                                        </tr>
+                                    </tbody>
+                                    </table>      
+         </div>
+                                    </div>
+            </div>
+    </div>
+        <div id="noFav" class="alert alert-warning" style="width: 1080px;height: 30px;display: none;margin-top: 489px;margin-left: 248px;"><p style="margin-left: 19px;margin-top: -5px;">No Records</p></div>
+        
+        
+        
+        
+        <div id="placename" style="width: 100%;height: 100px;margin-top:481px;margin-left:-35px;">
+            <p style="font-size: 23px;font-weight: bold;text-align:center;">{{placeName}}</p>
+        </div>
+    <div id="detailsTab"  style="margin-left: 216px;margin-top: -59px;" class='animate-hide'  ng-hide="detailsHide">
+        <div id="listid" style="margin-left:8px;"> <button id="listID" type="button" class="btn btn-default btn-sm" ng-click="listShow()">
+          <span class="glyphicon glyphicon-chevron-left"></span>List
+        </button></div>
+        <div>
+            <a href="https://twitter.com/intent/tweet?text=Check out {{placeName1}} located at {{placeAddr1}} Website: &url={{webSite1}}&hashtags=TravelAndEntertainmentSearch" style="text-decoration: none;width: 60px;"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/Twitter.png" id="twitterShare" style="margin-left: 1039px;margin-top: -18px;border-radius: 4px;text-decoration: none;font-size: 24px;width: 41px;height: 35px;">
+                </a>
+         <!--<a href="https://twitter.com/intent/share/" class="fa fa-twitter" style="margin-left: 1039px;margin-top: -43px;border-radius: 4px;text-decoration: none;font-size: 24px;width: 41px;height: 35px;"></a>-->
+        </div>
+        <div>
+        <button  id="starBtn" type="button" class="btn btn-default btn" ng-click="addtostorage()" style="margin-left:993px;margin-top:-35px;width: 42px;height: 34px;">
+         <span class="glyphicon glyphicon-star-empty" id="details_star"></span>
+        </button>
+        </div>
+        <div id="tabs">
+        <ul class="nav nav-tabs nav collapse navbar-collapse justify-content-end" id="myTab" role="tablist" style="padding-left: 798px;width: 1112px;">
+        <li class="nav-item active">
+    <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true" aria-expanded="true">Info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab" aria-controls="photos" aria-selected="false">Photos</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="maps-tab" data-toggle="tab" href="#maps" role="tab" aria-controls="maps" aria-selected="false">Map</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
+  </li>
+</ul>
+        </div>
+<div class="tab-content" id="myTabContent">
+<div class="tab-pane active" id="info" role="tabpanel" aria-labelledby="info-tab" style="width: 1115px;margin-top: 28px;">
+<table class="table table-striped table-responsive" id="placeInfoTabs">
+    <thead>
+    </thead>
+    <tbody >
+      <tr id="addr">
+        <td style="font-weight: bold;font-size: 14px;">Address</td>
+        <td style="margin-left: 300px;width: 810px;">{{placeAddr}}</td>
+      </tr>
+        <tr id="phone">
+        <td style="font-weight: bold;font-size: 14px;">Phone Number</td>
+        <td style="margin-left: 300px;width: 810px;">{{phoneNum}}</td>
+      </tr>    
+        <tr>
+        <td style="font-weight: bold;font-size: 14px;">Price Level</td>
+        <td style="margin-left: 300px;width: 810px;" ng-if="pLvl==true">{{priceLevel}}</td>
+        <td style="margin-left: 300px;width: 810px;" ng-if="pLvl==false">$</td> 
+      </tr>    
+        <tr id="rate">
+        <td style="font-weight: bold;font-size: 14px;">Rating</td>
+            <td style="margin-left: 300px;width: 810px;">{{placeRating}} <div id="{{placeDataId}}" style="margin-left: 21px;
+margin-top: -23px;"></div></td>
+            
+      </tr>
+        <tr id="gplace">
+        <td style="font-weight: bold;font-size: 14px;">Google Place</td>
+        <td style="margin-left: 300px;width: 810px;"><a href="{{placeUrl}}" target="_blank">{{placeUrl}}</a></td>
+      </tr>
+        <tr id="web">
+        <td style="font-weight: bold;font-size: 14px;">Website</td>
+        <td style="margin-left: 300px;width: 810px;"><a href="{{webSite}}" target="_blank">{{webSite}}</a></td>
+      </tr>
+        <tr>
+        <td style="font-weight: bold;font-size: 14px;">Hours</td>
+        <td ng-show="openNow" style="margin-left: 300px;width: 810px;">Open now:{{open_hours}} <a id="smalltab" href="" data-toggle="modal" data-target="#myModal" target="_blank">Daily open hours</a></td>
+        <td ng-hide="openNow" style="margin-left: 300px;width: 810px;">Closed <a id="smallTab" href="" data-toggle="modal" data-target="#myModal" target="_blank">Daily open hours</a></td>
+      </tr>
+    </tbody>
+      </table>
+    </div>
+  <div class="tab-pane" id="photos" role="tabpanel" aria-labelledby="photos-tab" style="margin-top: 7px;">
+    <div class="container-fluid" style="padding-left:16px">
+  <div class="row" style="margin-right: 325px;margin-left: -29px;" >
+    <div class="column" style="width: 21%">
+        <a href="{{photoPlace[0]}}" target="_blank">
+          <img src="{{photoPlace[0]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[4]}}" target="_blank" >
+          <img src="{{photoPlace[4]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[8]}}" target="_blank">
+          <img src="{{photoPlace[8]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+      </div>
+      <div class="column" style="width: 21%" style="border: none;">
+        <a href="{{photoPlace[1]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[1]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[5]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[5]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[9]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[9]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+      </div>
+      <div class="column" style="width: 21%" style="border: none;">
+        <a href="{{photoPlace[2]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[2]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[6]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[6]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+      </div>
+      <div class="column" style="width: 21%" style="border: none;">
+        <a href="{{photoPlace[3]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[3]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+        <a href="{{photoPlace[7]}}" target="_blank" style="border: none">
+          <img src="{{photoPlace[7]}}" alt="" class="img-thumbnail" style="border: none">
+        </a>
+      </div>
+</div>
+        
+        <div id="noPhotos" class="alert alert-warning" style="width: 1080px;height: 30px;display: none;margin-top: 29px;margin-left: 13px;"><p style="margin-left: 19px;margin-top: -5px;">No Records</p></div>
+       </div>     
+      
+     <!-- <div class="container-fluid">
+      <div class="row"> 
+  <div class="column"  style="width: 21%">
+  
+          <img ng-repeat="photo in photoPlace | limitTo:3" src="{{photoPlace[$index]}}" class="img-thumbnail">
+  </div>
+          <div class="column"  style="width: 21%">
+
+          <img ng-repeat="photo in photoPlace | limitTo:3" src="{{photoPlace[$index+4]}}" class="img-thumbnail">
+  </div>
+  
+          <img ng-repeat="photo in photoPlace | limitTo:3" src="{{photoPlace[$index+8]}}" class="img-thumbnail">
+  </div>
+          <div class="column"  style="width: 21%">
+          <img ng-repeat="photo in photoPlace | limitTo:3" src="{{photoPlace[$index+4]}}" class="img-thumbnail">
+  </div>
+</div>-->
+          </div>
+  <div class="tab-pane" id="maps" role="tabpanel" aria-labelledby="maps-tab">
+    <div class="form-group">
+        <div class="col-xs-3">
+    <label for="from">From</label>
+    <input id="origin-input" class="form-control controls" type="text" ng-model="yourLoc" style="width: 350px;" onkeydown="disableDirectionBtn()">
+    </div>
+    </div>
+    <div class="form-group" style="margin-left: -593px;">
+        <div class="col-xs-3" style="margin-left: 79px;">
+  <label for="from">To</label>
+  <input id="destination-input" class="form-control controls" type="text" readonly="readonly" ng-model="placeAddr" style="width: 350px;margin-left: 6px;" >
+    </div>
+</div>
+      <div class="form-group" style="margin-left: -169px;">
+          <div class="col-xs-2">
+  <label for="sel1"style="margin-left: -60px;">Travel Mode</label>
+  <select class="form-control" id="mode" style="margin-left: -58px;">
+    <option value="DRIVING" id="changemode-driving">Driving</option>
+    <option value="BICYCLING" id="changemode-bicycling">Bicycling</option>
+    <option value="TRANSIT" id="changemode-transit">Transit</option>
+    <option value="WALKING" id="changemode-walking">Walking</option>
+  </select>
+                <img id="pegMan" src="http://cs-server.usc.edu:45678/hw/hw8/images/Pegman.png" style="width: 30px;height: 30px;margin-top: 11px; border-width:1px;margin-left: -783px;border-style:solid;border-color:thistle" onclick="toggleStreetView()">
+</div>
+      </div>
+      <button id="direction" type="button" class="btn btn-primary"style="margin-top:25px;margin-left: -48px;" ng-click="directions();">Get Directions</button>
+      <div id="map"></div>
+      <div id="right-panel"></div>
+      <!--<div style="width: 40px;height: 30px;margin-top: -495px;margin-left: 20px;">
+  
+          </div>-->
+          </div>
+    
+        <div class="tab-pane" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+             
+        <div style="width: 1500px;height: 35px;margin-left: 0px;margin-top: 100px;">
+        <div class="col-xs-2">
+        <select class="form-control selct" id="reviews1" style="margin-top:-66px;background-color: grey;width: 160px;color: white;">
+        <option value="google">Google Reviews</option>
+        <option value="yelp">Yelp Reviews</option>
+        </select>
+            </div>
+<!--            <div class="col-xs-2">
+           <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <button class="dropdown-item" type="button" id="action1">Google Reviews</button>
+    <button class="dropdown-item" type="button" id="action2">Yelp Reviews</button>
+  </div>
+</div>
+                </div>-->
+    <div class="col-xs-2">
+  <select class="form-control selct" id="order" style="margin-top:-66px;margin-left: -82px;background-color: grey;width: 160px;color: white;">
+    <option value="default" selected>Default Order</option>
+    <option value="highest">Highest Rating</option>
+    <option value="lowest">Lowest Rating</option>
+    <option value="most">Most Recent</option>
+    <option value="least">Least Recent</option>
+  </select>
+</div>
+            </div>
+                        
+    <div id="noYelpReviews" class="alert alert-warning" style="width: 1080px;height: 30px;display: none;margin-top: 29px;margin-left: 13px;"><p style="margin-left: 19px;margin-top: -5px;">No Records</p></div>
+    <div id="noGoogleReviews" class="alert alert-warning" style="width: 1080px;height: 30px;display: none;margin-top: 29px;margin-left: 13px;"><p style="margin-left: 19px;margin-top: -5px;">No Records</p></div>
+
+
+    <div class="container" style="margin-left:-22px; margin-top: -50px;" id="gooleReviews1">
+    <div class="panel panel-default" ng-repeat="reviews in reviewsData">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{reviews.author_url}}" target="_blank">
+            <img src={{reviews.profile_photo_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+        </div>
+        
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                      <!--<tr style="align-content: space-around;">
+                        <td><img src={{reviewsData[$index].profile_photo_url}} class="img-circle" width="40" height="40" /></td>
+                      </tr>-->
+                          <tr>
+                           <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{reviews.author_url}}" target="_blank">
+                            {{reviews.author_name}}
+                           </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{reviews.time}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                            {{dateArr[$index]}}
+                            </td>
+                          
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{reviews.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>
+            </div>
+            <div class="container" style="margin-left:-22px; margin-top: -50px;display: none;" id="gooleReviews2" style="display: none;">
+    <div class="panel panel-default" ng-repeat="reviews in reviewsData | orderBy:reviewsOrder1">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{reviews.author_url}}" target="_blank">
+            <img src={{reviews.profile_photo_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+        </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                      <!--<tr style="align-content: space-around;">
+                        <td><img src={{reviewsData[$index].profile_photo_url}} class="img-circle" width="40" height="40" /></td>
+                      </tr>-->
+                          <tr>
+                          <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{reviews.author_url}}" target="_blank">
+                            {{reviews.author_name}}
+                            </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{googleUrl1[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                            {{dateArr[$index]}}<!--<div id="{{googleUrl1[$index]}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{reviews.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>
+            </div>
+            <div class="container" style="margin-left:-22px; margin-top: -50px;display: none;" id="gooleReviews3" style="display: none;">
+    <div class="panel panel-default" ng-repeat="reviews in reviewsData | orderBy:reviewsOrder2">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{reviews.profile_photo_url}}" target="_blank">
+            <img src={{reviews.profile_photo_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+        </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                      <!--<tr style="align-content: space-around;">
+                        <td><img src={{reviewsData[$index].profile_photo_url}} class="img-circle" width="40" height="40" /></td>
+                      </tr>-->
+                          <tr>
+                       <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{reviews.author_url}}" target="_blank">
+                            {{reviews.author_name}}
+                            </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{googleUrls[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                          
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                            {{dateArr[$index]}}
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{reviews.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>
+            </div>
+            <div class="container" style="margin-left:-22px; margin-top: -50px;display: none;" id="gooleReviews4" style="display: none;">
+    <div class="panel panel-default" ng-repeat="reviews in reviewsData | orderBy:reviewsOrder3">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{reviews.author_url}}" target="_blank">
+            <img src={{reviews.profile_photo_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+        </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                      <!--<tr style="align-content: space-around;">
+                        <td><img src={{reviewsData[$index].profile_photo_url}} class="img-circle" width="40" height="40" /></td>
+                      </tr>-->
+                          <tr>
+                         <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{reviews.author_name}}" target="_blank">
+                            {{reviews.author_name}}
+                            </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{googleUrl7[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                            {{gooleMostRecent[$index]}}<!--<div id="{{reviews.time}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{reviews.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>
+            </div>
+            <div class="container" style="margin-left:-22px; margin-top: -50px;display: none;" id="gooleReviews5">
+    <div class="panel panel-default" ng-repeat="reviews in reviewsData | orderBy:reviewsOrder4">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{reviews.author_url}}" target="_blank">
+            <img src={{reviews.profile_photo_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+        </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                      <!--<tr style="align-content: space-around;">
+                        <td><img src={{reviewsData[$index].profile_photo_url}} class="img-circle" width="40" height="40" /></td>
+                      </tr>-->
+                          <tr>
+                            <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{reviews.author_name}}" target="_blank">
+                            {{reviews.author_name}}
+                            </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{googleUrl8[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                            {{gooleLeastRecent[$index]}}<!--<div id="{{reviews.time}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{reviews.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>
+            </div>
+            <div class="container" style="margin-left:-22px;margin-top: -32px;display: none;" id="yelpReviews1">
+        <div class="panel panel-default" ng-repeat="yelp in yelpObject">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{yelp.url}}" target="_blank">
+            <img src={{yelp.user.image_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+            </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                          <tr>
+                            <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{yelp.url}}" target="_blank">
+                           {{yelp.user.name}}
+                                </a></td>
+                          </tr>
+                       <tr>
+                          <td>
+                          <div id="{{yelp.id}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                           {{yelp.time_created}}<!--<div id="{{yelp.id}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{yelp.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>       
+        </div>
+        <div class="container" style="margin-left:-22px;margin-top: -32px;display: none;" id="yelpReviews2">
+        <div class="panel panel-default" ng-repeat="yelp in yelpObject| orderBy:yelpreviewsOrder1">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{yelp.url}}" target="_blank">
+            <img src={{yelp.user.image_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+            </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                          <tr>
+                            <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{yelp.url}}" target="_blank">
+                           {{yelp.user.name}}
+                                </a></td>
+                          </tr>
+                       <tr>
+                          <td>
+                          <div id="{{yelpUrl1[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                           {{yelp.time_created}}<!--<div id="{{yelpUrl1[$index]}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{yelp.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>          
+        </div>
+            <div class="container" style="margin-left:-22px;margin-top: -32px;display: none;" id="yelpReviews3">
+        <div class="panel panel-default" ng-repeat="yelp in yelpObject| orderBy:yelpreviewsOrder2">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{yelp.url}}" target="_blank">
+            <img src={{yelp.user.image_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+            </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                          <tr>
+                            <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{yelp.url}}" target="_blank">
+                           {{yelp.user.name}}
+                                </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{yelpUrl[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                           {{yelp.time_created}}<!--<div id="{{yelpUrl[$index]}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{yelp.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>          
+        </div>
+            <div class="container" style="margin-left:-22px;margin-top: -32px;display: none;" id="yelpReviews4">
+        <div class="panel panel-default" ng-repeat="yelp in yelpObject| orderBy:yelpreviewsOrder3">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{yelp.url}}" target="_blank">
+            <img src={{yelp.user.image_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+            </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                          <tr>
+                            <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{yelp.url}}" target="_blank">
+                           {{yelp.user.name}}
+                            </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{yelpUrl4[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                           {{yelpMost[$index]}}
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{yelp.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>          
+        </div>
+            <div class="container" style="margin-left:-22px;margin-top: -32px;display: none;" id="yelpReviews5">
+        <div class="panel panel-default" ng-repeat="yelp in yelpObject| orderBy:yelpreviewsOrder4">
+        <div id="profilePhoto" style="margin-top:24px;margin-left: 9px;">
+             <a href="{{yelp.url}}" target="_blank">
+            <img src={{yelp.user.image_url}} class="img-circle" width="50px" height="50px"/>
+            </a>
+            </div>
+        <div class="panel-body" ><table class="table-list table-responsive" style="margin-top:-72px;">
+                  <thead>
+                  </thead>
+                  <tbody>
+                          <tr>
+                              <td style="padding-top: 12px;padding-left:58px;color: deepskyblue;"><a href="{{yelp.url}}" target="_blank">
+                           {{yelp.user.name}}
+                           </a></td>
+                          </tr>
+                      <tr>
+                          <td>
+                          <div id="{{yelpUrl5[$index]}}" style="padding-left: 56px;"></div></td>
+                      </tr>
+                      <tr>
+                            <td  style="padding-top: 0px;padding-left:58px;color: darkgrey;">
+                           {{yelpLeast[$index]}}<!--<div id="{{yelp.id}}"></div>-->
+                            </td>
+                          </tr>
+                      <tr>
+                            <td style="padding-top: 0px;padding-left:58px;">
+                           {{yelp.text}}
+                            </td>
+                          </tr>
+                        </tbody>
+                </table>
+        </div>
+        </div>          
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="modal fade bs-example-modal-sm" id="myModal" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-sm">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Open hours</h4>
+        </div>
+        <!--<div class="modal-body list-group list-group-flush" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+          <p>Monday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{day_mond}}</p>
+             </div>
+          <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+          <p>Tuesday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{day_tues}}</p>
+              </div>
+           <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+            <p>Wednesday&nbsp;&nbsp;&nbsp;&nbsp;{{day_wedn}}</p>
+          </div>
+           <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+            <p>Thursday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{day_thur}}</p>
+          </div>
+           <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+            <p>Friday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{day_frid}}</p>
+          </div>
+           <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+            <p>Saturday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{day_satu}}</p>
+          </div>
+           <div class="modal-body" style="border-bottom-style:2px;border-bottom-style: solid;border-block-end-style: solid;border-bottom-width:thin;border-color:grey;padding: 6px;">
+            <p>Sunday&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{day_sund}}</p>
+          </div>-->
+<table class="table">
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td ng-style="currIndex === 0 ? {'font-weight': 'bold'}:{'color':''}">Monday</td>
+      <td ng-style="currIndex === 0 ? {'font-weight': 'bold'}:{'color':''}">{{day_mond}}</td>
+    </tr>
+    <tr>
+      <td ng-style="currIndex === 1 ? {'font-weight': 'bold'}:{'color':''}">Tuesday</td>
+      <td ng-style="currIndex === 1 ? {'font-weight': 'bold'}:{'color':''}"> {{day_tues}}</td>
+    </tr>
+    <tr>
+      <td ng-style="currIndex === 2 ? {'font-weight': 'bold'}:{'color':''}">Wednesday</td>
+        <td ng-style="currIndex === 2 ? {'font-weight': 'bold'}:{'color':''}">{{day_wedn}}</td>
+    </tr>
+      <tr>
+      <td ng-style="currIndex === 3 ? {'font-weight': 'bold'}:{'color':''}">Thursday</td>
+      <td ng-style="currIndex ===  3? {'font-weight': 'bold'}:{'color':''}">{{day_thur}}</td>
+    </tr>
+      <tr>
+      <td ng-style="currIndex === 4 ? {'font-weight': 'bold'}:{'color':''}">Friday</td>
+      <td ng-style="currIndex === 4 ? {'font-weight': 'bold'}:{'color':''}">{{day_frid}}</td>
+    </tr>
+      <tr>
+      <td ng-style="currIndex === 5 ? {'font-weight': 'bold'}:{'color':''}">Saturday</td>
+      <td ng-style="currIndex === 5 ? {'font-weight': 'bold'}:{'color':''}">{{day_satu}}</td>
+    </tr>
+      <tr>
+      <td ng-style="currIndex === 6 ? {'font-weight': 'bold'}:{'color':''}">Sunday</td>
+      <td ng-style="currIndex === 6 ? {'font-weight': 'bold'}:{'color':''}">{{day_sund}}</td>
+    </tr>
+  </tbody>
+</table>
+       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5kenH1XXF7WBdM_OQJBP9zVuF-8YIohU&libraries=places&callback=initAutocomplete">
+    </script>
+        <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5kenH1XXF7WBdM_OQJBP9zVuF-8YIohU&libraries=places&callback=initialize" async defer></script>-->
+    </div>
+     
+</body>
+</html>

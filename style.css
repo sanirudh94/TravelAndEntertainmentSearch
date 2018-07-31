@@ -1,0 +1,202 @@
+select option:empty { display:none }
+.selct {
+     /*for firefox*/
+     -moz-appearance: none;
+     /*for chrome*/
+     -webkit-appearance:none;
+}
+
+/*for IE10*/
+.selct::-ms-expand {
+    display: none;
+}
+
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+.table-fixed {
+    table-layout: fixed;
+    overflow: hidden;
+}
+#tableData{
+        border: 1px solid #CCC;
+        width: 100%;
+        display: block;
+        margin-top: 20px;
+        
+    }
+/*
+#firstPage{
+    display: none;
+    margin-top:482px;
+}
+*/
+
+/*#firstPageTable{
+        overflow-x:auto;
+        white-space: nowrap;
+        overflow-y: hidden;
+    }
+#firstPageTable.table tr td{
+    vertical-align: middle;
+}*/
+#firstProgress{
+width: 1059px;
+margin-top: 483px;
+margin-left: 235px;
+}
+#loadingmessage{
+    margin-top: 200px;
+}
+./*pages1{
+    display: none;
+    margin-top: 472px;
+}*/
+span.stars, span.stars span {
+    display: block;
+    background: url('http://www.ulmanen.fi/stuff/stars.png') 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+.checked {
+    color: orange;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+
+.alignright {
+  float:right;
+}
+.fa {
+    padding: 7px;
+    text-align: center;
+    text-decoration: none;
+}
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+.fa:hover {
+opacity: 0.7;
+}
+
+  * {
+      box-sizing: border-box;
+  }
+
+  body {
+      margin: 0;
+      font-family: Arial;
+  }
+
+  .header {
+      text-align: center;
+      padding: 32px;
+  }
+
+  #map {
+        height: 389px;
+      width: 1079px;
+      left: 10px;
+      top: 9px;
+}
+gm-map {
+    display: block;
+    width: 100%;
+    height: 300px;
+}
+gm-map {
+    display: block;
+    width: 100%;
+    height: 300px;
+}
+#street-view {
+        height: 389px;
+
+width: 1079px;
+
+left: 10px;
+
+top: 29px;
+}
+#right-panel {
+        height: 100%;
+        float: right;
+        width: 390px;
+        overflow: auto;
+    margin-top: 55px;
+    margin-left: 10px;
+    
+      }
+#right-panel {
+float: none;
+width: 1081px;
+}
+.twitter-share-button{
+    font-size: 12px;
+}
+.btn-link:focus, .btn-link:hover{
+    text-decoration: none;
+}
+.highlight { background-color: red; 
+}
+
+.animate-hide {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+transition:all linear 1s;
+opacity:1;
+padding:20px;
+border:none;
+position: absolute;
+left: 0;
+}
+.animate-hide.ng-hide {
+  left: -100%;
+  opacity:0;
+  
+}
+.animate-hide1 {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+    -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 2s;
+transition:all linear 1s;
+opacity:1;
+padding:20px;
+border:none;
+position: absolute;
+left: 0px;
+top:471px;
+}
+.animate-hide1.ng-hide {
+  left: 100%;
+  opacity:0;
+}
+
+
+.animate-show,
+.animate-hide {
+  -webkit-transition:all linear 1s;
+  -moz-transition:all linear 1s;
+  -ms-transition:all linear 1s;
+  -o-transition:all linear 1s;
+  transition:all linear 1s;
+}
+
+.animate-show.ng-hide-remove,
+.animate-hide.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
+  display: block !important;
+}
+
+.animate-hide.ng-hide-add,
+.animate-show.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+  display: block !important;
+}
+
+
